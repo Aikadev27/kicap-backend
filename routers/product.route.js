@@ -4,6 +4,8 @@ const router = express.Router();
 // const veryfieMiddleware = require("../middleware/role.middleware");
 
 router.get("/", ProductController.displayProduct);
+router.get("/:_id", ProductController.getByID);
+
 router.post("/create", ProductController.addProduct);
 // cac thao tac voi product quyen admin
 router.delete("/delete/:_id", ProductController.delete);

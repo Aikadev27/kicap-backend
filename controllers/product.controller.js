@@ -11,6 +11,14 @@ class Product {
       })
       .catch((err) => console.log(err));
   }
+  async getByID(req, res) {
+    const query = req.params._id;
+    await ProductModel.findById(query)
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => console.log(err));
+  }
   //   POST: them san pham moi
   async addProduct(req, res) {
     await ProductModel.create(req.body)

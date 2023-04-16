@@ -5,7 +5,7 @@ const { encode } = require("../utils/jwt.util");
 
 class UserController {
   // chuc nang tao tai khoan
-  async signup(req, res) {
+  async register(req, res) {
     try {
       const pass = req.body.pass;
       const hash = await argon2.hash(pass);
@@ -24,6 +24,7 @@ class UserController {
       res.status(402).send("unknow user");
     }
   }
+  // dang nhapp
   async login(req, res) {
     try {
       const userName = req.body.userName;
@@ -38,6 +39,7 @@ class UserController {
       }
       res.send({
         token: encode(user.toObject()),
+        user,
       });
     } catch (error) {
       console.log(error);
