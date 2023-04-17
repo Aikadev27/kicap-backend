@@ -2,6 +2,7 @@ const User = require("../models/User.model");
 const argon2 = require("argon2");
 // const jwt = require("jsonwebtoken");
 const { encode } = require("../utils/jwt.util");
+const UserModel = require("../models/User.model");
 
 class UserController {
   // chuc nang tao tai khoan
@@ -16,6 +17,14 @@ class UserController {
       console.log(error);
       res.status(400).send("dang ky khong thanh cong");
     }
+  }
+  async getUserById(req, res) {
+    const query = req.params._id;
+    await UserModel.findById(query)
+      .then((result) => res.send(result))
+      .catch((error) => {
+        console.log(error);
+      });
   }
   async auth(req, res) {
     try {
@@ -43,6 +52,23 @@ class UserController {
       });
     } catch (error) {
       console.log(error);
+    }
+  }
+  async updateUser(req, res) {
+    const userId = req.params._id;
+    try {
+      const user = await User.findByIdAndUpdate(userId, req.body, {
+        new: true,
+      });
+
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
     }
   }
 }
