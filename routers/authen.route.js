@@ -6,7 +6,7 @@ const router = express.Router();
 router
   .get("/", authMiddleware, UserController.auth)
   .get("/:_id", authMiddleware, UserController.getUserById)
-  .patch("/update/:_id", UserController.updateUser)
+  .patch("/update", authMiddleware, UserController.updateUser)
   .get("/user", veryfieMiddleware.userRole, UserController.auth)
   .get("/admin", veryfieMiddleware.adminRole, UserController.auth)
   .post("/register", UserController.register)

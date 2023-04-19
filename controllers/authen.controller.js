@@ -3,7 +3,7 @@ const argon2 = require("argon2");
 // const jwt = require("jsonwebtoken");
 const { encode } = require("../utils/jwt.util");
 const UserModel = require("../models/User.model");
-
+const CartModel = require("../models/Cart.model");
 class UserController {
   // chuc nang tao tai khoan
   async register(req, res) {
@@ -11,6 +11,7 @@ class UserController {
       const pass = req.body.pass;
       const hash = await argon2.hash(pass);
       const user = await User.create({ ...req.body, pass: hash });
+      await CartModel.create({ userId: user._id, products: [] });
       const token = encode(user.toObject());
       res.send({ token });
     } catch (error) {
@@ -55,7 +56,7 @@ class UserController {
     }
   }
   async updateUser(req, res) {
-    const userId = req.params._id;
+    const userId = req.user._id;
     try {
       const user = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
