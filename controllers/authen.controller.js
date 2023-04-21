@@ -45,7 +45,7 @@ class UserController {
         // res.redirect("/singup");
       }
       if (!(await argon2.verify(user.pass, pass))) {
-        return res.status(401).send("khong tim thay pass");
+        return res.status(401).send("sai mat khau");
       }
       res.send({
         token: encode(user.toObject()),
